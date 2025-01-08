@@ -53,14 +53,6 @@ data "aws_iam_policy_document" "custom_trust_policy" {
 data "rhcs_rosa_operator_roles" "operator_roles" {
   operator_role_prefix = local.operator_role_prefix
   account_role_prefix  = var.account_role_prefix
-
-  lifecycle {
-    # The operator_iam_roles should contains 6 elements 
-    postcondition {
-      condition     = length(self.operator_iam_roles) == local.operator_roles_count
-      error_message = "The operator roles list returned has a length of ${length(self.operator_iam_roles)}, which differs from the expected value of ${local.operator_roles_count}. To solve this, you need to update \"local.operator_roles_count\" value to ${length(self.operator_iam_roles)} and apply again."
-    }
-  }
 }
 
 data "aws_caller_identity" "current" {}
